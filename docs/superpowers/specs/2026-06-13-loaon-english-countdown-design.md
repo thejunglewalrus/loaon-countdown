@@ -94,16 +94,15 @@ number is therefore always current at the moment the command is used.
 **Shared target constant:** define `const LOAON_TARGET = Date.UTC(2026,5,20,7,0,0)`
 near the top so it is the bot's single source of truth.
 
-**Reply format (pre-event):**
+**Reply format (pre-event) — concise, single short line:**
 ```
-🚢 2026 LOA ON SUMMER airs in 6d 13h 47m — Sat Jun 20, 3:00 AM ET / 16:00 KST.
-Live countdown + ships 🌊 → https://thejunglewalrus.github.io/loaon-countdown/
+🚢 LOA ON SUMMER in 6d 13h 47m (Jun 20, 3AM ET) → thejunglewalrus.github.io/loaon-countdown
 ```
 - Compute `d`/`h`/`m` from `LOAON_TARGET - Date.now()`; omit `0d`/`0h` segments
   cleanly (e.g. "13h 47m", "47m").
-- **Post-event state:** if the target has passed within the last few hours, reply
-  "🔴 2026 LOA ON SUMMER is LIVE now! → <youtube link>"; once well past, reply
-  that the showcase has aired. Keep this simple — a single time comparison.
+- **Post-event state:** if the target has passed, reply
+  "🔴 LOA ON SUMMER is LIVE now! → <youtube link>" while live, then
+  "LOA ON SUMMER has aired." once well past. Single time comparison.
 - Reply via `sendChatMessage(..., { replyTo: tags.id })` like the other commands.
 
 **Discoverability:** add `!loaon` to the `!commands` reference page if that page
