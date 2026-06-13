@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2026 LOA ON SUMMER — Countdown</title>
+<meta name="description" content="English countdown to the 2026 LOA ON SUMMER showcase — June 20, 2026, 16:00 KST / 3:00 AM ET." />
+<meta property="og:title" content="2026 LOA ON SUMMER — Countdown" />
+<meta property="og:description" content="Counting down to the Lost Ark summer showcase: June 20, 2026, 16:00 KST / 3:00 AM ET." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --sky-top: #6db6e6;
+    --sky-bottom: #bfe3f3;
+    --ink: #ffffff;
+    --gold: #ffd87a;
+    --red: #ff2e3e;
+    --shadow: 0 2px 14px rgba(8, 40, 70, .45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
+    overflow-x: hidden;
+    min-height: 100svh;
+  }
+
+  /* ---- background video ---- */
+  #bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+  #scrim {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    /* darken only the lower band where the countdown/buttons sit, for legibility */
+    background: linear-gradient(180deg, rgba(6,28,52,0) 42%, rgba(6,28,52,.30) 78%, rgba(6,28,52,.5) 100%);
+  }
+
+  /* ---- layout ---- */
+  main {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    padding: 0 20px clamp(28px, 6vh, 64px);
+    gap: clamp(18px, 2.6vh, 26px);
+  }
+
+  /* ---- live + date ---- */
+  .when {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: clamp(14px, 2.2vw, 19px);
+    text-shadow: var(--shadow);
+  }
+  .live {
+    background: var(--red);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: .12em;
+    font-size: .82em;
+    padding: 5px 11px;
+    border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(255,46,62,.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .live::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+  /* ---- countdown ---- */
+  .countdown {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(6px, 1.6vw, 18px);
+    background: rgba(6, 28, 52, .28);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 18px;
+    padding: clamp(14px, 2.6vw, 26px) clamp(16px, 3vw, 34px);
+    backdrop-filter: blur(3px);
+    box-shadow: var(--shadow);
+  }
+  .seg { display: flex; flex-direction: column; align-items: center; min-width: clamp(48px, 11vw, 92px); }
+  .seg .num {
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(34px, 8.5vw, 76px);
+    line-height: 1;
+    letter-spacing: .02em;
+  }
+  .seg .lab {
+    margin-top: 8px;
+    font-size: clamp(9px, 1.5vw, 12px);
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .85;
+  }
+  .colon {
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(28px, 7vw, 64px);
+    line-height: 1.05;
+    opacity: .7;
+    align-self: flex-start;
+    padding-top: clamp(2px, .4vw, 4px);
+  }
+
+  /* ---- live-now state ---- */
+  .livenow {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .livenow .badge {
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(28px, 7vw, 60px);
+    letter-spacing: .06em;
+    text-shadow: var(--shadow);
+  }
+  body.is-live .countdown { display: none; }
+  body.is-live .livenow { display: flex; }
+  body.is-live .alerts h2 { display: none; }
+
+  /* ---- alerts / buttons ---- */
+  .alerts { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .alerts h2 {
+    font-weight: 600;
+    font-size: clamp(14px, 2.2vw, 19px);
+    letter-spacing: .04em;
+    text-shadow: var(--shadow);
+    opacity: .95;
+  }
+  .buttons { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: clamp(14px, 1.9vw, 16px);
+    letter-spacing: .02em;
+    padding: 13px 22px;
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(6,28,52,.35);
+    transition: transform .12s ease, filter .12s ease;
+  }
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.07); }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn--yt { background: #ff0033; }
+  .btn--site { background: linear-gradient(180deg, #ffdf8f, #f3b73f); color: #4a2e00; }
+
+  footer {
+    position: fixed;
+    bottom: 10px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 11px;
+    opacity: .8;
+    text-shadow: var(--shadow);
+    padding: 0 16px;
+  }
+  footer a { color: inherit; }
+
+  @media (max-width: 560px) {
+    .countdown { gap: 2px; padding: 14px 12px; }
+    .colon { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+  <video id="bg" autoplay loop muted playsinline poster="assets/poster.jpg">
+    <source src="assets/loaon.mp4" type="video/mp4" />
+  </video>
+  <div id="scrim"></div>
+
+  <main>
+    <div class="when">
+      <span class="live">LIVE</span>
+      <span>2026.6.20 (Sat) 16:00 KST · 3:00 AM ET</span>
+    </div>
+
+    <div class="countdown" id="countdown" role="timer" aria-live="off">
+      <div class="seg"><span class="num" id="d">--</span><span class="lab">Days</span></div>
+      <span class="colon">:</span>
+      <div class="seg"><span class="num" id="h">--</span><span class="lab">Hours</span></div>
+      <span class="colon">:</span>
+      <div class="seg"><span class="num" id="m">--</span><span class="lab">Minutes</span></div>
+      <span class="colon">:</span>
+      <div class="seg"><span class="num" id="s">--</span><span class="lab">Seconds</span></div>
+    </div>
+
+    <div class="livenow">
+      <span class="badge">🔴 LIVE NOW</span>
+    </div>
+
+    <div class="alerts">
+      <h2>Sign up for broadcast alerts</h2>
+      <div class="buttons">
+        <a class="btn btn--yt" href="https://www.youtube.com/@LostArkGame" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          Official YouTube
+        </a>
+        <a class="btn btn--site" href="https://lostark.game.onstove.com/Event/Promotion/LOAON/260603" target="_blank" rel="noopener">
+          Official LOA ON Page
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Unofficial English countdown · event &amp; artwork © Smilegate / Lost Ark ·
+    <a href="https://lostark.game.onstove.com/Event/Promotion/LOAON/260603" target="_blank" rel="noopener">official page</a>
+  </footer>
+
+  <script>
+    // Single source of truth: 2026-06-20 16:00 KST = 07:00 UTC = 3:00 AM ET.
+    var TARGET = Date.UTC(2026, 5, 20, 7, 0, 0); // month is 0-indexed → June
+    var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+    var el = {
+      d: document.getElementById("d"),
+      h: document.getElementById("h"),
+      m: document.getElementById("m"),
+      s: document.getElementById("s")
+    };
+    function tick() {
+      var diff = TARGET - Date.now();
+      if (diff <= 0) {
+        document.body.classList.add("is-live");
+        return;
+      }
+      el.d.textContent = pad(Math.floor(diff / 86400000));
+      el.h.textContent = pad(Math.floor(diff / 3600000) % 24);
+      el.m.textContent = pad(Math.floor(diff / 60000) % 60);
+      el.s.textContent = pad(Math.floor(diff / 1000) % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
