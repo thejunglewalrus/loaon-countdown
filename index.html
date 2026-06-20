@@ -147,6 +147,32 @@
   body.is-live .livenow { display: flex; }
   body.is-live .alerts h2 { display: none; }
 
+  /* ---- event-over state ---- */
+  .over {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .over .badge {
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(26px, 6.5vw, 56px);
+    letter-spacing: .04em;
+    text-shadow: var(--shadow);
+  }
+  .over .sub {
+    font-weight: 600;
+    font-size: clamp(13px, 2vw, 17px);
+    opacity: .9;
+    text-shadow: var(--shadow);
+  }
+  body.is-over .countdown,
+  body.is-over .livenow,
+  body.is-over .when .live { display: none; }
+  body.is-over .over { display: flex; }
+  body.is-over .alerts h2 { display: none; }
+
   /* ---- alerts / buttons ---- */
   .alerts { display: flex; flex-direction: column; align-items: center; gap: 16px; }
   .alerts h2 {
@@ -220,6 +246,11 @@
       <span class="badge">🔴 LIVE NOW</span>
     </div>
 
+    <div class="over">
+      <span class="badge">✓ Event Over</span>
+      <span class="sub">The 2026 LOA ON SUMMER showcase has aired — watch the replay below.</span>
+    </div>
+
     <div class="alerts">
       <h2>Sign up for broadcast alerts</h2>
       <div class="buttons">
@@ -227,8 +258,8 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
           Official YouTube
         </a>
-        <a class="btn btn--site" href="https://lostark.game.onstove.com/Event/Promotion/LOAON/260603" target="_blank" rel="noopener">
-          Official LOA ON Page
+        <a class="btn btn--site" href="https://www.youtube.com/watch?v=8Da1-PsiZ28" target="_blank" rel="noopener">
+          ▶ Watch the Showcase
         </a>
       </div>
     </div>
@@ -242,6 +273,7 @@
   <script>
     // Single source of truth: 2026-06-20 16:00 KST = 07:00 UTC = 3:00 AM ET.
     var TARGET = Date.UTC(2026, 5, 20, 7, 0, 0); // month is 0-indexed → June
+    var LIVE_WINDOW_MS = 3 * 60 * 60 * 1000; // treat as live for 3h after start
     var pad = function (n) { return (n < 10 ? "0" : "") + n; };
     var el = {
       d: document.getElementById("d"),
@@ -252,7 +284,11 @@
     function tick() {
       var diff = TARGET - Date.now();
       if (diff <= 0) {
-        document.body.classList.add("is-live");
+        if (diff <= -LIVE_WINDOW_MS) {
+          document.body.classList.add("is-over");
+        } else {
+          document.body.classList.add("is-live");
+        }
         return;
       }
       el.d.textContent = pad(Math.floor(diff / 86400000));
